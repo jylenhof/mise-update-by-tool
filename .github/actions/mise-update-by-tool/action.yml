@@ -1,0 +1,35 @@
+name: 'Mise update by tool'
+description: 'Action to create PR for updating mise config files one tool by one tool'
+# To implement
+# mise_version
+#
+# inputs:
+#   who-to-greet:  # id of input
+#     description: 'Who to greet'
+#     required: true
+#     default: 'World'
+# outputs:
+#   random-number:
+#     description: "Random number"
+#     value: ${{ steps.random-number-generator.outputs.random-number }}
+runs:
+  using: "composite"
+  steps:
+    - name: "Install mise tool"
+      uses: jdx/mise-action@v2
+      with:
+#        version: 2024.10.0 # [default: latest] mise version to install
+        install: true # [default: true] run `mise install`
+#        install_args: "bun" # [default: ""] additional arguments to `mise install`
+        cache: true # [default: true] cache mise using GitHub's cache
+        experimental: true # [default: false] enable experimental features
+        log_level: debug # [default: info] log level
+        # automatically write this .tool-versions file
+
+    - name: Get List Tool To Update in Json Format
+      id: get-tool-to-update-json-format
+      run: echo "Hello $INPUT_WHO_TO_GREET."
+      shell: bash
+      run: |
+        echo "mise_json=$(mise outdated -l --json | jq -c -M)" >> ${GITHUB_OUTPUT}
+
