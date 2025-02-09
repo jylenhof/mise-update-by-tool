@@ -18,7 +18,7 @@ on:
 jobs:
     updater_tool:
       outputs:
-        mise_json_matrix: ${{ steps.updater_tool.outputs.mise_json }}
+        mise_json_matrix: ${{ steps.get-tool-to-update-json-format.outputs.mise_json }}
       runs-on: [ubuntu-22.04]
       steps:
         - name: "Checkout"
