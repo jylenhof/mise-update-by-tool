@@ -44,21 +44,22 @@ jobs:
           id: get-tool-to-update-json-format
           shell: bash
           run: |
-            echo "mise_json=$(mise outdated -l --json | jq -c -M)" >> ${GITHUB_OUTPUT}
+            echo "mise_json=$(mise outdated -l --json | jq -c -M 'map( {name, requested, current, bump, latest, source} )| {"include": .}')" >> ${GITHUB_OUTPUT}
+
     step2:
       runs-on: ubuntu-22.04
       needs: updater_tool
-      # strategy:
-      #   matrix:
-      #     mise_json: ${{ fromJSON(needs.updater_tool.outputs.mise_json_matrix) }}
-      #   fail-fast: false
+      strategy:
+        matrix:
+          mise_json: ${{ fromJSON(needs.updater_tool.outputs.mise_json_matrix) }}
+        fail-fast: false
       steps:
         - name: "Step 2 - 1"
           shell: bash
           run: |
-            # echo "all=${{ matrix.mise_json }}"
-            # echo "name=${{ matrix.mise_json.name }}"
-            # echo "bump=${{ matrix.mise_json.bump }}"
-            # echo "source=${{ matrix.mise_json.source }}"
-            echo "${{ needs.updater_tool.outputs.mise_json_matrix }}"
+            echo "all=${{ matrix.mise_json }}"
+            echo "name=${{ matrix.mise_json.name }}"
+            echo "bump=${{ matrix.mise_json.bump }}"
+            echo "source=${{ matrix.mise_json.source }}"
+            # echo "${{ needs.updater_tool.outputs.mise_json_matrix }}"
 
