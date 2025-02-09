@@ -52,6 +52,9 @@ jobs:
       strategy:
         matrix: ${{ fromJSON(needs.list_tools.outputs.mise_json_matrix) }}
         fail-fast: false
+      permissions:
+          contents: write
+          pull-requests: write
       steps:
         - name: "Checkout"
           uses: actions/checkout@v4
