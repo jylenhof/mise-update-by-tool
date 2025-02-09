@@ -69,5 +69,5 @@ jobs:
         - name: "Update tool ${{ matrix.name }}"
           shell: bash
           run: |
-            echo "${{ matrix.bump}}"
-            mise upgrade --dry-run --bump ${{ matrix.name }}
+            mise upgrade --bump ${{ matrix.name }}
+            git diff
