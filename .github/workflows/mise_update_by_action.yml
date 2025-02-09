@@ -20,5 +20,6 @@ jobs:
           id: get-tool-to-update-json-format
           shell: bash
           run: |
+              mise doctor
               echo "mise_json=$(mise outdated -l --json | jq -c -M)" # >> ${GITHUB_OUTPUT}
 
