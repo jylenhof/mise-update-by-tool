@@ -2,6 +2,19 @@ name: 'Mise update by tool'
 description: 'Action to create PR for updating mise config files one tool by one tool'
 on:
   workflow_dispatch:
+    inputs:
+      mise_install_debug:
+        description: "Active debug mode"
+        default: "info"
+        type: choice
+        options:
+          - "info"
+          - "debug"
+      get_mise_doctor_outputs:
+        description: "Get mise doctor outputs"
+        default: false
+        type: boolean
+
 jobs:
     updater_tool:  
       runs-on: [ubuntu-22.04]
@@ -13,16 +26,21 @@ jobs:
           uses: jdx/mise-action@v2
           with:
             # version: 2024.10.0 # [default: latest] mise version to install
-            install: false # We need tools installed to get mise outdated works
+            install: false # No need to install tools to get information
             #install_args: "bun" # [default: ""] additional arguments to `mise install`
             cache: true # [default: true] cache mise using GitHub's cache
             experimental: true # [default: false] enable experimental features
-            log_level: debug # [default: info] log level
+            log_level: ${{ inputs.mise_install_debug }} # [default: info] log level
+
+        - name: "Get mise doctor informations"
+          if: ${{ inputs.get_mise_doctor_outputs }}
+          shell: bash
+          run: |
+            mise doctor
 
         - name: Get List Tool To Update in Json Format
           id: get-tool-to-update-json-format
           shell: bash
           run: |
-              mise doctor
-              echo "mise_json=$(mise outdated -l --json | jq -c -M)" # >> ${GITHUB_OUTPUT}
+            echo "mise_json=$(mise outdated -l --json | jq -c -M)" # >> ${GITHUB_OUTPUT}
 
