@@ -68,7 +68,8 @@ jobs:
             log_level: ${{ inputs.mise_install_debug }} # [default: info] log level
 
         - name: "Update tool ${{ matrix.name }}"
-          if: ${{ matrix.bump }} != null
+          if: ${{ matrix.bump }} != "null"
           shell: bash
           run: |
+            echo "${{ matrix.bump}}"
             mise upgrade --dry-run --bump ${{ matrix.name }}
