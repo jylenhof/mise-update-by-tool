@@ -6,11 +6,14 @@ jobs:
     updater_tool:  
       runs-on: [ubuntu-22.04]
       steps:
+        - name: "Checkout"
+          uses: actions/checkout@v4
+
         - name: "Install mise tool"
           uses: jdx/mise-action@v2
           with:
             # version: 2024.10.0 # [default: latest] mise version to install
-            install: true # We need tools installed to get mise outdated works
+            install: false # We need tools installed to get mise outdated works
             #install_args: "bun" # [default: ""] additional arguments to `mise install`
             cache: true # [default: true] cache mise using GitHub's cache
             experimental: true # [default: false] enable experimental features
