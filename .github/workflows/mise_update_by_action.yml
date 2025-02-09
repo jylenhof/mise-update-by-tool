@@ -10,7 +10,7 @@ jobs:
           uses: jdx/mise-action@v2
           with:
             # version: 2024.10.0 # [default: latest] mise version to install
-            install: false # [default: true] run `mise install`
+            install: true # We need tools installed to get mise outdated works
             #install_args: "bun" # [default: ""] additional arguments to `mise install`
             cache: true # [default: true] cache mise using GitHub's cache
             experimental: true # [default: false] enable experimental features
