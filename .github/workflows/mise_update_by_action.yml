@@ -56,9 +56,10 @@ jobs:
         - name: "Step 2 - 1"
           shell: bash
           run: |
-            echo "name=${{ matrix.mise_json.name }}"
-            echo "bump=${{ matrix.mise_json.bump }}"
-            echo "type=${{ matrix.mise_json.type }}"
-            echo "source=${{ matrix.mise_json.source }}"
+            echo "all=${{ matrix.mise_json }}"
+      #      echo "name=${{ matrix.mise_json.name }}"
+      #      echo "bump=${{ matrix.mise_json.bump }}"
+      #     echo "type=${{ matrix.mise_json.type }}"
+      #     echo "source=${{ matrix.mise_json.source }}"
       #      echo ${{ needs.updater_tool.outputs.mise_json_matrix }}
 
