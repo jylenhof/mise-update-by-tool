@@ -1,2 +1,3 @@
 terraform 1.10.2
 terraform-docs 0.16.0
+uv 0.5.29
