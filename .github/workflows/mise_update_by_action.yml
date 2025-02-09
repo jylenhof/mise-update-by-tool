@@ -53,11 +53,23 @@ jobs:
         matrix: ${{ fromJSON(needs.updater_tool.outputs.mise_json_matrix) }}
         fail-fast: false
       steps:
+        - name: "Checkout"
+          uses: actions/checkout@v4
+
+        - name: "Install mise tool"
+          uses: jdx/mise-action@v2
+          with:
+            # version: 2024.10.0 # [default: latest] mise version to install
+            install: false # No need to install tools to get information
+            #install_args: "bun" # [default: ""] additional arguments to `mise install`
+            cache: true # [default: true] cache mise using GitHub's cache
+            experimental: true # [default: false] enable experimental features
+            log_level: ${{ inputs.mise_install_debug }} # [default: info] log level
+
         - name: "Step 2 - 1"
           shell: bash
           run: |
-            echo "name=${{ matrix.requested }}"
-            echo "bump=${{ matrix.bump }}"
-            echo "source=${{ matrix.source }}"
+            echo "matrix=${{ matrix }}"
+            mise upgrade --dry-run --bump ${{ matrix.name }}
             # echo "${{ needs.updater_tool.outputs.mise_json_matrix }}"
 
