@@ -44,8 +44,7 @@ jobs:
           id: get-tool-to-update-json-format
           shell: bash
           run: |
-            echo "mise_json=$(mise outdated -l --json | jq -c -M 'map(select(.bump!=null))|{"include": .}' >> ${GITHUB_OUTPUT}
-     #         jq -c -M 'map({name, requested, current, bump, latest, source})|.[]|select(.bump!=null)|{"include": .}')" >> ${GITHUB_OUTPUT}
+            echo "mise_json=$(mise outdated -l --json | jq -c -M 'map(select(.bump!=null))|{"include": .}')" >> ${GITHUB_OUTPUT}
 
     update_tool:
       runs-on: ubuntu-22.04
