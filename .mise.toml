@@ -1,0 +1,3 @@
+[tools]
+shellcheck = "0.9.0"
+shfmt = "0.8.0"
