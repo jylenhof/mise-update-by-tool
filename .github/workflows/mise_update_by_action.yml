@@ -16,7 +16,9 @@ on:
         type: boolean
 
 jobs:
-    updater_tool:  
+    updater_tool:
+      outputs:
+        mise_json_matrix: ${{ steps.updater_tool.outputs.mise_json }}
       runs-on: [ubuntu-22.04]
       steps:
         - name: "Checkout"
@@ -48,7 +50,7 @@ jobs:
       needs: updater_tool
       strategy:
         matrix:
-          mise_json: ${{ fromJSON(needs.updater_tool.outputs.mise_json) }}
+          mise_json: ${{ fromJSON(needs.updater_tool.outputs.mise_json_matrix) }}
         fail-fast: false
       steps:
         - name: "Step 1"
