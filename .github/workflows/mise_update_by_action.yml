@@ -48,13 +48,14 @@ jobs:
     step2:
       runs-on: ubuntu-22.04
       needs: updater_tool
-      strategy:
-        matrix:
-          mise_json: ${{ fromJSON(needs.updater_tool.outputs.mise_json_matrix) }}
-        fail-fast: false
+      # strategy:
+      #   matrix:
+      #     mise_json: ${{ fromJSON(needs.updater_tool.outputs.mise_json_matrix) }}
+      #   fail-fast: false
       steps:
-        - name: "Step 1"
+        - name: "Step 2 - 1"
           shell: bash
           run: |
-            echo ${{ matrix.mise_json }}
+            # echo ${{ matrix.mise_json }}
+            echo ${{ needs.updater_tool.outputs.mise_json_matrix }}
 
