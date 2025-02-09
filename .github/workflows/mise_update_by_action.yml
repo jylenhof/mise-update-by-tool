@@ -16,7 +16,7 @@ on:
         type: boolean
 
 jobs:
-    list_tool:
+    list_tools:
       outputs:
         mise_json_matrix: ${{ steps.get-tool-to-update-json-format.outputs.mise_json }}
       runs-on: [ubuntu-22.04]
@@ -45,13 +45,13 @@ jobs:
           shell: bash
           run: |
             echo "mise_json=$(mise outdated -l --json | \
-              jq -c -M 'map( {name, requested, current, bump, latest, source} )| {"include": .}')" >> ${GITHUB_OUTPUT}
+              jq -c -M 'map({name, requested, current, bump, latest, source})|.[]|select(.bump!=null)|{"include": .}')" >> ${GITHUB_OUTPUT}
 
     update_tool:
       runs-on: ubuntu-22.04
-      needs: list_tool
+      needs: list_tools
       strategy:
-        matrix: ${{ fromJSON(needs.list_tool.outputs.mise_json_matrix) }}
+        matrix: ${{ fromJSON(needs.list_tools.outputs.mise_json_matrix) }}
         fail-fast: false
       steps:
         - name: "Checkout"
@@ -68,7 +68,6 @@ jobs:
             log_level: ${{ inputs.mise_install_debug }} # [default: info] log level
 
         - name: "Update tool ${{ matrix.name }}"
-          if: ${{ matrix.bump }} != "" # null output by mise is ""
           shell: bash
           run: |
             echo "${{ matrix.bump}}"
