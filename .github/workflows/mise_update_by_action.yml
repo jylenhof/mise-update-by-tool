@@ -70,4 +70,18 @@ jobs:
           shell: bash
           run: |
             mise upgrade --bump ${{ matrix.name }}
-            git diff
+
+        - name: Create Pull Request
+          uses: peter-evans/create-pull-request@v7
+          with:
+            commit-message: "chore(tools): update mise tool ${{ matrix.name }}"
+            author: "Jean-Yves LENHOF <jygithub@lenhof.eu.org>"
+            committer: "Jean-Yves LENHOF <jygithub@lenhof.eu.org>"
+            token: "${{ secrets.GITHUB_TOKEN }}"
+            branch: "chore/update_tool_${{ matrix.name }}"
+            delete-branch: true
+            draft: true
+            title: "chore(tools): update mise tool ${{ matrix.name }}"
+            body: |
+              automated PR with complete
+              description to do
