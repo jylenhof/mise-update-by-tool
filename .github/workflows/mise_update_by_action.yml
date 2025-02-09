@@ -50,16 +50,14 @@ jobs:
       runs-on: ubuntu-22.04
       needs: updater_tool
       strategy:
-        matrix:
-          mise_json: ${{ fromJSON(needs.updater_tool.outputs.mise_json_matrix) }}
+        matrix: ${{ fromJSON(needs.updater_tool.outputs.mise_json_matrix) }}
         fail-fast: false
       steps:
         - name: "Step 2 - 1"
           shell: bash
           run: |
-            echo "all=${{ matrix.mise_json }}"
-            echo "name=${{ matrix.mise_json.name }}"
-            echo "bump=${{ matrix.mise_json.bump }}"
-            echo "source=${{ matrix.mise_json.source }}"
+            echo "name=${{ matrix.requested }}"
+            echo "bump=${{ matrix.bump }}"
+            echo "source=${{ matrix.source }}"
             # echo "${{ needs.updater_tool.outputs.mise_json_matrix }}"
 
